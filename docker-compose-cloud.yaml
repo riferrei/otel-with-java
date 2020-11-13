@@ -1,0 +1,44 @@
+version: '2.2'
+
+services:
+
+  hello-app:
+    build: .
+    image: hello-app:latest
+    container_name: hello-app
+    hostname: hello-app
+    ports:
+      - "8888:8888"
+    networks:
+      - elastic
+    depends_on:
+      - collector
+    environment:
+      - OTEL_EXPORTER=otlp
+      - OTEL_EXPORTER_OTLP_ENDPOINT=collector:55680
+      - OTEL_RESOURCE_ATTRIBUTES=service.name=hello-app,service.version=1.0
+    healthcheck:
+      interval: 5s
+      retries: 10
+      test: curl --write-out 'HTTP %{http_code}' --fail --silent --output /dev/null http://localhost:8888/hello
+
+  collector:
+    image: otel/opentelemetry-collector-contrib-dev
+    container_name: collector
+    hostname: collector
+    command: ["--config=/etc/collector-config-cloud.yaml"]
+    volumes:
+      - ./collector-config-cloud.yaml:/etc/collector-config-cloud.yaml
+    ports:
+      - "13133:13133"
+      - "55680:55680"
+    networks:
+    - elastic
+
+volumes:
+  esdata:
+    driver: local
+
+networks:
+  elastic:
+    driver: bridge
