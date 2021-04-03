@@ -3,6 +3,11 @@ receivers:
     protocols:
       grpc:
         endpoint: 0.0.0.0:55680
+  hostmetrics:
+    collection_interval: 1m
+    scrapers:
+      load:
+      memory:
 
 processors:
   batch:
@@ -19,7 +24,16 @@ exporters:
 service:
   extensions: [health_check]
   pipelines:
+    metrics:
+      receivers:
+        - otlp
+        - hostmetrics
+      exporters:
+        - elastic
     traces:
-      receivers: [otlp]
-      processors: [batch]
-      exporters: [elastic]
+      receivers:
+        - otlp
+      processors:
+        - batch
+      exporters:
+        - elastic

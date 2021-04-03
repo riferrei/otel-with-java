@@ -2,29 +2,20 @@
 
 This project showcase how to use [Elastic APM](https://www.elastic.co/apm) with a microservice written in [Java](https://openjdk.java.net/) and instrumented using [OpenTelemetry](https://opentelemetry.io/). Everything is based on [Docker Compose](https://docs.docker.com/compose/) and you can test it with Elastic APM running locally or running on [Elasticsearch Service](https://www.elastic.co/elasticsearch/service).
 
-## Elastic APM running in your local machine
+## Run with the collector
 
-Just execute:
+Using this model, the Java application sends the traces and metrics to a collector that forwards them to Elastic APM.
 
 ```bash
-docker-compose -f docker-compose-local.yaml up -d
+docker-compose -f run-with-collector.yaml up -d
 ```
 
-## Elastic APM running on Elasticsearch Service
+## Run without the collector
 
-You will need to edit the file [collector-config-cloud.yaml](collector-config-cloud.yaml) and provide the following information:
-
-```bash
-exporters:
-  elastic:
-    apm_server_url: "<APM_SERVER_URL>"
-    secret_token: "<SECRET_TOKEN>"
-```
-
-Then you can execute:
+Using this model, the Java application sends the traces and metrics directly to Elastic APM.
 
 ```bash
-docker-compose -f docker-compose-cloud.yaml up -d
+docker-compose -f run-without-collector.yaml up -d
 ```
 
 Once everything is running there will periodic requests being sent to the microservice so you don't need to issue any requests by yourself. However, if you want to do it anyway just execute:

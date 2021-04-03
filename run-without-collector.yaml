@@ -1,4 +1,4 @@
-version: '2.2'
+version: '3.0'
 
 services:
 
@@ -12,34 +12,18 @@ services:
     networks:
       - elastic
     depends_on:
-      - collector
+      - apm-server
     environment:
       - OTEL_EXPORTER=otlp
-      - OTEL_EXPORTER_OTLP_ENDPOINT=collector:55680
-      - OTEL_RESOURCE_ATTRIBUTES=service.name=hello-app,service.version=1.0
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://apm-server:8200
+      - OTEL_RESOURCE_ATTRIBUTES=service.name=hello-app,service.version=1.0,deployment.environment=development
     healthcheck:
       interval: 5s
       retries: 10
       test: curl --write-out 'HTTP %{http_code}' --fail --silent --output /dev/null http://localhost:8888/hello
 
-  collector:
-    image: otel/opentelemetry-collector-contrib-dev
-    container_name: collector
-    hostname: collector
-    command: ["--config=/etc/collector-config-local.yaml"]
-    volumes:
-      - ./collector-config-local.yaml:/etc/collector-config-local.yaml
-    ports:
-      - "13133:13133"
-      - "55680:55680"
-    networks:
-    - elastic
-    depends_on:
-      apm-server:
-        condition: service_healthy
-
   apm-server:
-    image: docker.elastic.co/apm/apm-server:7.10.0
+    image: docker.elastic.co/apm/apm-server:7.12.0
     container_name: apm-server
     hostname: apm-server
     depends_on:
@@ -67,8 +51,9 @@ services:
       test: curl --write-out 'HTTP %{http_code}' --fail --silent --output /dev/null http://localhost:8200/
 
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.10.0
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.12.0
     container_name: elasticsearch
+    hostname: elasticsearch
     environment:
     - bootstrap.memory_lock=true
     - cluster.name=docker-cluster
@@ -91,8 +76,9 @@ services:
       test: curl -s http://localhost:9200/_cluster/health | grep -vq '"status":"red"'
 
   kibana:
-    image: docker.elastic.co/kibana/kibana:7.10.0
+    image: docker.elastic.co/kibana/kibana:7.12.0
     container_name: kibana
+    hostname: kibana
     depends_on:
       elasticsearch:
         condition: service_healthy
