@@ -18,6 +18,14 @@ Using this model, the Java application sends the traces and metrics directly to 
 docker-compose -f run-without-collector.yaml up -d
 ```
 
+## Accessing Elastic APM
+
+After executing the services you can reach the Elastic APM application in the following URL:
+
+```bash
+http://localhost:5601/app/apm
+```
+
 ## Manually executing the Java application
 
 Once everything is running there will periodic requests being sent to the microservice so you don't need to issue any requests by yourself. However, if you want to do it anyway just execute:
