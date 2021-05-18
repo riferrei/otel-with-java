@@ -1,4 +1,4 @@
-package com.riferrei.elastic.apm;
+package com.riferrei.otel.java;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,4 +1,4 @@
-package com.riferrei.elastic.apm;
+package com.riferrei.otel.java;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

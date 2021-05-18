@@ -5,3 +5,5 @@ README.md
 collector-config.yaml
 run-with-collector.yaml
 run-without-collector.yaml
+opentelemetry-javaagent-all.jar
+hello-app.log

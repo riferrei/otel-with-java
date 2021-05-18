@@ -14,7 +14,8 @@ services:
     depends_on:
       - collector
     environment:
-      - OTEL_EXPORTER=otlp
+      - OTEL_TRACES_EXPORTER=otlp
+      - OTEL_METRICS_EXPORTER=otlp
       - OTEL_EXPORTER_OTLP_ENDPOINT=http://collector:55680
       - OTEL_RESOURCE_ATTRIBUTES=service.name=hello-app,service.version=1.0
     healthcheck:

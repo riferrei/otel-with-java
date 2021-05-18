@@ -14,7 +14,8 @@ services:
     depends_on:
       - apm-server
     environment:
-      - OTEL_EXPORTER=otlp
+      - OTEL_TRACES_EXPORTER=otlp
+      - OTEL_METRICS_EXPORTER=otlp
       - OTEL_EXPORTER_OTLP_ENDPOINT=http://apm-server:8200
       - OTEL_RESOURCE_ATTRIBUTES=service.name=hello-app,service.version=1.0,deployment.environment=development
     healthcheck:
