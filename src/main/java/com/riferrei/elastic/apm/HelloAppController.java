@@ -18,6 +18,7 @@ public class HelloAppController {
             setMessage(message);
         }
 
+        @SuppressWarnings("unused")
         public String getMessage() {
             return message;
         }
