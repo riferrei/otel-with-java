@@ -6,7 +6,7 @@ java -jar target/hello-app-1.0.jar
 
 #OTEL_AGENT=opentelemetry-javaagent-all.jar
 #if [ ! -f "${OTEL_AGENT}" ]; then
-#  wget -O opentelemetry-javaagent-all.jar https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/download/v1.2.0/opentelemetry-javaagent-1.2.0-all.jar
+#  wget -O opentelemetry-javaagent-all.jar https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/download/v1.2.0/opentelemetry-javaagent-all.jar
 #fi
 
 #java -javaagent:./${OTEL_AGENT} \
