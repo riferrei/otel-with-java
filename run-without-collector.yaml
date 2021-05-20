@@ -2,27 +2,6 @@ version: '3.0'
 
 services:
 
-  hello-app:
-    build: .
-    image: hello-app:latest
-    container_name: hello-app
-    hostname: hello-app
-    ports:
-      - "8888:8888"
-    networks:
-      - elastic
-    depends_on:
-      - apm-server
-    environment:
-      - OTEL_TRACES_EXPORTER=otlp
-      - OTEL_METRICS_EXPORTER=otlp
-      - OTEL_EXPORTER_OTLP_ENDPOINT=http://apm-server:8200
-      - OTEL_RESOURCE_ATTRIBUTES=service.name=hello-app,service.version=1.0,deployment.environment=development
-    healthcheck:
-      interval: 5s
-      retries: 10
-      test: curl --write-out 'HTTP %{http_code}' --fail --silent --output /dev/null http://localhost:8888/hello
-
   apm-server:
     image: docker.elastic.co/apm/apm-server:7.12.1
     container_name: apm-server
@@ -37,7 +16,7 @@ services:
     ports:
     - 8200:8200
     networks:
-    - elastic
+    - otel-with-java
     command: >
        apm-server -e
          -E apm-server.rum.enabled=true
@@ -66,11 +45,11 @@ services:
         hard: -1
         soft: -1
     volumes:
-    - esdata:/usr/share/elasticsearch/data
+    - otel-with-java:/usr/share/elasticsearch/data
     ports:
     - 9200:9200
     networks:
-    - elastic
+    - otel-with-java
     healthcheck:
       interval: 10s
       retries: 20
@@ -89,16 +68,16 @@ services:
     ports:
     - 5601:5601
     networks:
-    - elastic
+    - otel-with-java
     healthcheck:
       interval: 10s
       retries: 20
       test: curl --write-out 'HTTP %{http_code}' --fail --silent --output /dev/null http://localhost:5601/api/status
 
 volumes:
-  esdata:
+  otel-with-java:
     driver: local
 
 networks:
-  elastic:
+  otel-with-java:
     driver: bridge
