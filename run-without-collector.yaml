@@ -17,6 +17,8 @@ services:
       - OTEL_TRACES_EXPORTER=otlp
       - OTEL_METRICS_EXPORTER=otlp
       - OTEL_EXPORTER_OTLP_ENDPOINT=http://apm-server:8200
+      - OTEL_TRACES_SAMPLER=always_on
+      - OTEL_IMR_EXPORT_INTERVAL=5000
       - OTEL_RESOURCE_ATTRIBUTES=service.name=hello-app,service.version=1.0,deployment.environment=development
     healthcheck:
       interval: 5s
