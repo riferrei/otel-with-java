@@ -37,15 +37,15 @@ public class HelloAppController {
             .build();
 
     @SuppressWarnings("unused")
-    private static final LongValueObserver freeMemory =
+    private static final LongValueObserver heapMemory =
         meter
-            .longValueObserverBuilder(JVM_MEMORY_NAME)
-            .setDescription(JVM_MEMORY_DESCRIPTION)
+            .longValueObserverBuilder(HEAP_MEMORY_NAME)
+            .setDescription(HEAP_MEMORY_DESCRIPTION)
             .setUnit("byte")
             .setUpdater(
                 result -> result.observe(
                     Runtime.getRuntime().totalMemory(),
-                    Labels.of(JVM_MEMORY_NAME, JVM_MEMORY_DESCRIPTION))
+                    Labels.of(HEAP_MEMORY_NAME, HEAP_MEMORY_DESCRIPTION))
             )
             .build();
 
