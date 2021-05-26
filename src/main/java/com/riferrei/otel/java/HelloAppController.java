@@ -50,7 +50,7 @@ public class HelloAppController {
             .build();
 
     @RequestMapping(method= RequestMethod.GET, value="/hello")
-    public Response Car() {
+    public Response hello() {
         Response response = buildResponse();
         // Creating a custom span just for fun...
         Span span = tracer.spanBuilder("mySpan").startSpan();
