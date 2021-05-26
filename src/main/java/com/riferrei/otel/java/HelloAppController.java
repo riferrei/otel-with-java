@@ -16,6 +16,7 @@ import io.opentelemetry.context.Scope;
 import io.opentelemetry.extension.annotations.WithSpan;
 
 import static com.riferrei.otel.java.Constants.*;
+import static java.lang.Runtime.*;
 
 @RestController
 public class HelloAppController {
@@ -44,7 +45,7 @@ public class HelloAppController {
             .setUnit("byte")
             .setUpdater(
                 result -> result.observe(
-                    Runtime.getRuntime().totalMemory(),
+                    getRuntime().totalMemory() - getRuntime().freeMemory(),
                     Labels.of(HEAP_MEMORY_NAME, HEAP_MEMORY_DESCRIPTION))
             )
             .build();
