@@ -7,7 +7,7 @@ This project showcase how to use [Elastic APM](https://www.elastic.co/apm) with 
 Using this model, the Java application sends the traces and metrics to a collector that forwards them to Elastic APM.
 
 ```bash
-docker-compose -f run-with-collector.yaml up -d
+docker compose -f run-with-collector.yaml up -d
 ```
 
 ## Run without the collector
@@ -15,7 +15,7 @@ docker-compose -f run-with-collector.yaml up -d
 Using this model, the Java application sends the traces and metrics directly to Elastic APM.
 
 ```bash
-docker-compose -f run-without-collector.yaml up -d
+docker compose -f run-without-collector.yaml up -d
 ```
 
 ## Accessing Elastic APM
