@@ -1,6 +1,6 @@
 # OpenTelemetry in Java with Elastic APM
 
-This project showcase how to instrument a microservice written in Java using [OpenTelemetry](https://opentelemetry.io/), to produce telemetry data (traces and metrics) to [Elastic APM](https://www.elastic.co/apm) which acts as the backend.
+This project showcase how to instrument a microservice written in Java using [OpenTelemetry](https://opentelemetry.io/), to produce telemetry data (traces and metrics) to [Elastic APM](https://www.elastic.co/apm).
 
 ## Run with the collector
 
