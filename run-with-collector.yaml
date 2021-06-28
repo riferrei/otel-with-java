@@ -42,7 +42,7 @@ services:
         condition: service_healthy
 
   apm-server:
-    image: docker.elastic.co/apm/apm-server:7.13.1
+    image: docker.elastic.co/apm/apm-server:7.13.2
     container_name: apm-server
     hostname: apm-server
     depends_on:
@@ -70,21 +70,18 @@ services:
       test: curl --write-out 'HTTP %{http_code}' --fail --silent --output /dev/null http://localhost:8200/
 
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.13.1
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.13.2
     container_name: elasticsearch
     environment:
     - node.name=es01
     - bootstrap.memory_lock=true
     - cluster.name=docker-cluster
-    - cluster.routing.allocation.disk.threshold_enabled=false
     - discovery.type=single-node
     - ES_JAVA_OPTS=-Xms1g -Xmx1g
     ulimits:
       memlock:
         hard: -1
         soft: -1
-    volumes:
-    - otel-with-java:/usr/share/elasticsearch/data
     ports:
     - 9200:9200
     networks:
@@ -95,7 +92,7 @@ services:
       test: curl -s http://localhost:9200/_cluster/health | grep -vq '"status":"red"'
 
   kibana:
-    image: docker.elastic.co/kibana/kibana:7.13.1
+    image: docker.elastic.co/kibana/kibana:7.13.2
     container_name: kibana
     depends_on:
       elasticsearch:
@@ -111,10 +108,6 @@ services:
       interval: 10s
       retries: 20
       test: curl --write-out 'HTTP %{http_code}' --fail --silent --output /dev/null http://localhost:5601/api/status
-
-volumes:
-  otel-with-java:
-    driver: local
 
 networks:
   otel-with-java:
