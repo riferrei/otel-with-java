@@ -18,8 +18,9 @@ extensions:
   health_check:
 
 exporters:
-  elastic:
-    apm_server_url: "http://apm-server:8200"
+  otlp:
+    endpoint: "http://apm-server:8200"
+    insecure: true
 
 service:
   extensions: [health_check]
