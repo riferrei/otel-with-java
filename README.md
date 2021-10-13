@@ -18,7 +18,7 @@ Using this model, the Java application sends the traces and metrics directly to 
 docker compose -f run-without-collector.yaml up -d
 ```
 
-## Accessing Elastic APM
+## Visualizing the traces
 
 After executing the services you can reach the Elastic APM application in the following URL:
 
