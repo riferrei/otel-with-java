@@ -13,8 +13,10 @@ github:
 
 # List the start up tasks. Learn more https://www.gitpod.io/docs/config-start-tasks/
 tasks:
+
   - init: docker-compose -f run-with-collector.yaml build && docker-compose -f run-with-collector.yaml pull
     command: docker-compose -f run-with-collector.yaml up -d
+
 
 # List the ports to expose. Learn more https://www.gitpod.io/docs/config-ports/
 ports:
@@ -26,5 +28,4 @@ ports:
   - port: 8888
   # Application performance monitoring (APM) server
   - port: 8200
-  # OpenTelemetry collector
-  - port: 13133
+  
