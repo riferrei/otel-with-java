@@ -131,4 +131,4 @@ services:
 
 networks:
   default:
-    name: otel-with-golang
+    name: otel-with-java
