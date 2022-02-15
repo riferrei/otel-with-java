@@ -8,8 +8,7 @@ services:
     container_name: hello-app
     hostname: hello-app
     depends_on:
-      fleet-server:
-        condition: service_healthy
+      - collector
     ports:
       - "8888:8888"
     environment:
