@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 import io.opentelemetry.api.GlobalOpenTelemetry;
-import io.opentelemetry.api.metrics.GlobalMeterProvider;
 import io.opentelemetry.api.metrics.LongCounter;
 import io.opentelemetry.api.metrics.Meter;
 import io.opentelemetry.api.trace.Span;
@@ -23,10 +22,13 @@ public class HelloAppController {
         LoggerFactory.getLogger(HelloAppController.class);
 
     private static final Tracer tracer =
-        GlobalOpenTelemetry.getTracer("io.opentelemetry.traces.hello");
+        GlobalOpenTelemetry.getTracer("io.opentelemetry.traces.hello",
+            "0.13.1");
 
     private static final Meter meter =
-        GlobalMeterProvider.get().get("io.opentelemetry.metrics.hello");
+        GlobalOpenTelemetry.meterBuilder("io.opentelemetry.metrics.hello")
+            .setInstrumentationVersion("1.9.1-alpha")
+            .build();
 
     private static final LongCounter numberOfExecutions =
         meter
@@ -42,7 +44,7 @@ public class HelloAppController {
             .setUnit("bytes")
             .buildWithCallback(
                 r -> {
-                    r.observe(getRuntime().totalMemory() - getRuntime().freeMemory());
+                    r.record(getRuntime().totalMemory() - getRuntime().freeMemory());
                 });
     }
 
