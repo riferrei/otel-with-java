@@ -2,6 +2,7 @@ package com.riferrei.otel.java;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import io.opentelemetry.api.GlobalOpenTelemetry;
@@ -15,29 +16,38 @@ import io.opentelemetry.extension.annotations.WithSpan;
 import static com.riferrei.otel.java.Constants.*;
 import static java.lang.Runtime.*;
 
+import javax.annotation.PostConstruct;
+
 @RestController
 public class HelloAppController {
+
+    @Value("otel.traces.api.version")
+    private String tracesApiVersion;
+
+    @Value("otel.metrics.api.version")
+    private String metricsApiVersion;
 
     private static final Logger log =
         LoggerFactory.getLogger(HelloAppController.class);
 
-    private static final Tracer tracer =
+    private final Tracer tracer =
         GlobalOpenTelemetry.getTracer("io.opentelemetry.traces.hello",
-            "0.13.1");
+            tracesApiVersion);
 
-    private static final Meter meter =
+    private final Meter meter =
         GlobalOpenTelemetry.meterBuilder("io.opentelemetry.metrics.hello")
-            .setInstrumentationVersion("1.9.1-alpha")
+            .setInstrumentationVersion(metricsApiVersion)
             .build();
 
-    private static final LongCounter numberOfExecutions =
+    private final LongCounter numberOfExecutions =
         meter
             .counterBuilder(NUMBER_OF_EXEC_NAME)
             .setDescription(NUMBER_OF_EXEC_DESCRIPTION)
             .setUnit("int")
             .build();
 
-    static {
+    @PostConstruct
+    public void createAutomaticMetric() {
         meter
             .counterBuilder(HEAP_MEMORY_NAME)
             .setDescription(HEAP_MEMORY_DESCRIPTION)

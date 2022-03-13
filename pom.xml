@@ -15,7 +15,10 @@
     </parent>
 
     <properties>
-        <java.version>11</java.version>
+        <spring.application.name>hello-app</spring.application.name>
+        <server.port>8888</server.port>
+        <otel.traces.api.version>0.13.1</otel.traces.api.version>
+        <otel.metrics.api.version>1.9.1-alpha</otel.metrics.api.version>
     </properties>
 
     <dependencies>
@@ -50,20 +53,48 @@
         <dependency>
             <groupId>io.opentelemetry</groupId>
             <artifactId>opentelemetry-api-trace</artifactId>
-            <version>0.13.1</version>
+            <version>${otel.traces.api.version}</version>
         </dependency>
         <dependency>
             <groupId>io.opentelemetry</groupId>
             <artifactId>opentelemetry-api-metrics</artifactId>
-            <version>1.9.1-alpha</version>
+            <version>${otel.metrics.api.version}</version>
         </dependency>
     </dependencies>
 
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+        <testResources>
+            <testResource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </testResource>
+        </testResources>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>properties-maven-plugin</artifactId>
+                <version>1.0.0</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>write-project-properties</goal>
+                        </goals>
+                        <configuration>
+                            <outputFile>${project.build.outputDirectory}/application.properties</outputFile>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
