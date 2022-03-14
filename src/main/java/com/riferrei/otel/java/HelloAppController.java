@@ -21,14 +21,14 @@ import javax.annotation.PostConstruct;
 @RestController
 public class HelloAppController {
 
+    private static final Logger log =
+        LoggerFactory.getLogger(HelloAppController.class);
+
     @Value("otel.traces.api.version")
     private String tracesApiVersion;
 
     @Value("otel.metrics.api.version")
     private String metricsApiVersion;
-
-    private static final Logger log =
-        LoggerFactory.getLogger(HelloAppController.class);
 
     private final Tracer tracer =
         GlobalOpenTelemetry.getTracer("io.opentelemetry.traces.hello",
@@ -39,15 +39,18 @@ public class HelloAppController {
             .setInstrumentationVersion(metricsApiVersion)
             .build();
 
-    private final LongCounter numberOfExecutions =
-        meter
-            .counterBuilder(NUMBER_OF_EXEC_NAME)
-            .setDescription(NUMBER_OF_EXEC_DESCRIPTION)
-            .setUnit("int")
-            .build();
+    private LongCounter numberOfExecutions;
 
     @PostConstruct
-    public void createAutomaticMetric() {
+    public void createMetrics() {
+
+        numberOfExecutions =
+            meter
+                .counterBuilder(NUMBER_OF_EXEC_NAME)
+                .setDescription(NUMBER_OF_EXEC_DESCRIPTION)
+                .setUnit("int")
+                .build();
+
         meter
             .counterBuilder(HEAP_MEMORY_NAME)
             .setDescription(HEAP_MEMORY_DESCRIPTION)
@@ -56,6 +59,7 @@ public class HelloAppController {
                 r -> {
                     r.record(getRuntime().totalMemory() - getRuntime().freeMemory());
                 });
+
     }
 
     @RequestMapping(method= RequestMethod.GET, value="/hello")
