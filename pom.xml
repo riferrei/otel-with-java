@@ -16,7 +16,7 @@
 
     <properties>
         <otel.traces.api.version>0.13.1</otel.traces.api.version>
-        <otel.metrics.api.version>1.9.1-alpha</otel.metrics.api.version>
+        <otel.metrics.api.version>1.10.0-alpha-rc.1</otel.metrics.api.version>
     </properties>
 
     <dependencies>
@@ -47,12 +47,12 @@
         <dependency>
             <groupId>io.opentelemetry</groupId>
             <artifactId>opentelemetry-api</artifactId>
-            <version>1.12.0</version>
+            <version>1.14.0</version>
         </dependency>
         <dependency>
             <groupId>io.opentelemetry</groupId>
             <artifactId>opentelemetry-extension-annotations</artifactId>
-            <version>1.12.0</version>
+            <version>1.14.0</version>
         </dependency>
         <dependency>
             <groupId>io.opentelemetry</groupId>
