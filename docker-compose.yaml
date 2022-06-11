@@ -22,14 +22,14 @@ services:
     healthcheck:
       interval: 5s
       retries: 10
-      test: curl --write-out 'HTTP %{http_code}' --fail --silent --output /dev/null http://localhost:8888/hello
+      test: wget --no-verbose --tries=1 --spider http://localhost:8888/hello || exit 1
 
   collector:
     image: public.ecr.aws/aws-observability/aws-otel-collector:latest
     container_name: collector
     hostname: collector
     depends_on:
-      - jaeger
+      - tempo
       - prometheus
     command: ["--config=/etc/collector-config.yaml"]
     volumes:
@@ -37,7 +37,6 @@ services:
     ports:
       - "5555:5555"
       - "6666:6666"
-      - "7777:7777"
 
   tempo:
     image: grafana/tempo:latest
@@ -51,6 +50,10 @@ services:
     ports:
       - "3200:3200"
       - "4317:4317"
+    healthcheck:
+      interval: 5s
+      retries: 10
+      test: wget --no-verbose --tries=1 --spider http://localhost:3200/status || exit 1
 
   prometheus:
     image: prom/prometheus:latest
@@ -64,6 +67,10 @@ services:
       - ./o11y-backend/prometheus.yaml:/etc/prometheus.yaml
     ports:
       - "9090:9090"
+    healthcheck:
+      interval: 5s
+      retries: 10
+      test: wget --no-verbose --tries=1 --spider http://localhost:9090/status || exit 1
 
   grafana:
     image: grafana/grafana:latest
@@ -80,7 +87,11 @@ services:
       - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
       - GF_AUTH_DISABLE_LOGIN_FORM=true
     ports:
-      - "3000:3000"      
+      - "3000:3000"
+    healthcheck:
+      interval: 5s
+      retries: 10
+      test: wget --no-verbose --tries=1 --spider http://localhost:3000 || exit 1
 
 networks:
   default:

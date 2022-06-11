@@ -11,12 +11,10 @@ processors:
 
 extensions:
   health_check:
-  pprof:
-    endpoint: 0.0.0.0:6666
     
 exporters:
   prometheus:
-    endpoint: collector:7777
+    endpoint: collector:6666
     namespace: default
   otlp:
     endpoint: tempo:4317
