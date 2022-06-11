@@ -2,7 +2,7 @@ receivers:
   otlp:
     protocols:
       grpc:
-        endpoint: 0.0.0.0:55680
+        endpoint: 0.0.0.0:5555
 
 processors:
   batch:
@@ -11,21 +11,29 @@ processors:
 
 extensions:
   health_check:
-
+  pprof:
+    endpoint: 0.0.0.0:6666
+    
 exporters:
+  prometheus:
+    endpoint: collector:7777
+    namespace: default
   otlp:
-    endpoint: "http://fleet-server:8200"
+    endpoint: tempo:4317
     tls:
       insecure: true
 
 service:
-  extensions: [health_check]
   pipelines:
     metrics:
       receivers: [otlp]
       processors: [batch]
-      exporters: [otlp]
+      exporters: [prometheus]
     traces:
       receivers: [otlp]
       processors: [batch]
       exporters: [otlp]
+  extensions: [health_check]
+  telemetry:
+    logs:
+      level: debug

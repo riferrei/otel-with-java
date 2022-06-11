@@ -52,9 +52,9 @@ public class HelloAppController {
                 .build();
 
         meter
-            .counterBuilder(HEAP_MEMORY_NAME)
+            .gaugeBuilder(HEAP_MEMORY_NAME)
             .setDescription(HEAP_MEMORY_DESCRIPTION)
-            .setUnit("bytes")
+            .setUnit("byte")
             .buildWithCallback(
                 r -> {
                     r.record(getRuntime().totalMemory() - getRuntime().freeMemory());
@@ -71,11 +71,11 @@ public class HelloAppController {
             if (response.isValid()) {
                 log.info("The response is valid.");
             }
+            // Update the synchronous metric
+            numberOfExecutions.add(1);
         } finally {
             span.end();
         }
-        // Updating the metric
-        numberOfExecutions.add(1);
         return response;
     }
 

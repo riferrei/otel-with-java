@@ -6,8 +6,6 @@ collector-config.yaml
 run-with-collector.yaml
 run-without-collector.yaml
 opentelemetry-javaagent-all.jar
+tempo-data
 hello-app.log
 run-locally.sh
-fleet-server
-environment
-

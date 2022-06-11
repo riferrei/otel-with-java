@@ -1,41 +1,34 @@
-# OpenTelemetry in Java with Elastic Observability
+# OpenTelemetry in Java
 
-This project showcase how to instrument a microservice written in [Java](https://openjdk.java.net/) using [OpenTelemetry](https://opentelemetry.io/), to produce telemetry data (traces and metrics) to [Elastic Observability](https://www.elastic.co/observability).
+This project showcases how to instrument a microservice written in Java using OpenTelemetry to produce telemetry data to a [compatible observability backend](https://opentelemetry.io/vendors).
 
-## Run with the collector
+## Running locally with Prometheus, Grafana, and Grafana Tempo
 
-The Java microservice sends the traces and metrics to a collector that forwards them to Elastic Observability.
+The simplest way to play with this code is running everything local using docker compose:
 
 ```bash
-docker compose -f run-with-collector.yaml up -d
+docker compose up -d
 ```
 
-## Run without the collector
+## Running the microservice with AWS X-Ray and CloudWatch
 
-The Java microservice sends the traces and metrics directly to Elastic Observability.
+Alternatively, you can execute the microservice to send the telemetry data to AWS. Traces will be sent to [X-Ray](https://aws.amazon.com/xray) and metrics will be sent to [CloudWatch](https://aws.amazon.com/cloudwatch). This is possible thanks to the [AWS Distro for OpenTelemetry](https://aws.amazon.com/otel) that provides out-of-the-box integration with AWS services. Before running the code, configure your AWS credentials in your machine, as the code will try to use them to connect with the target services.
+
+### 1. Execute the collector
 
 ```bash
-docker compose -f run-without-collector.yaml up -d
+docker compose -f collector-for-aws.yaml up -d
 ```
 
-## Accessing Elastic Observability
-
-After executing the services you can reach the Elastic Observability application in the following URL:
+### 2. Execute the microservice
 
 ```bash
-http://localhost:5601/app/apm/services
-```
-
-Use the following credentials:
-
-```bash
-User: admin
-Pass: changeme
+sh run-locally.sh
 ```
 
 ## Invoking the microservice API
 
-Once everything is running, periodic requests will be sent to the microservice, so you don't need to issue any requests by yourself. However, if you want to do it anyway, just execute:
+Once everything is running, you can send requests to the microservice API using:
 
 ```bash
 curl -X GET http://localhost:8888/hello
