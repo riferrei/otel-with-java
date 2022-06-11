@@ -1,4 +1,4 @@
-# OpenTelemetry in Java
+# OpenTelemetry with Java
 
 This project showcases how to instrument a microservice written in Java using OpenTelemetry to produce telemetry data to a [compatible observability backend](https://opentelemetry.io/vendors).
 
