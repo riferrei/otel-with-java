@@ -4,5 +4,6 @@ target
 .classpath
 .project
 opentelemetry-javaagent-all.jar
+hello-app.log*
 hello-app.log
 tempo-data
