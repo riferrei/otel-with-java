@@ -14,19 +14,19 @@ docker compose up -d
 
 Alternatively, you can have the microservice sending telemetry data to AWS. Traces will be sent to [X-Ray](https://aws.amazon.com/xray) and the metrics will be sent to [CloudWatch](https://aws.amazon.com/cloudwatch). This is possible thanks to the [AWS Distro for OpenTelemetry](https://aws.amazon.com/otel) that provides out-of-the-box integration with AWS services. Before running the code; make sure to [configure your AWS credentials](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html) in your machine, as the code will use them to connect with the target services.
 
-1. **Execute the OTel collector**
+1. **Run the collector**
 
 ```bash
-docker compose -f collector-for-aws.yaml up -d
+sh run-collector.sh
 ```
 
-2. **Execute the microservice**
+2. **Run the microservice**
 
 ```bash
-sh run-locally.sh
+sh run-microservice.sh
 ```
 
-3. **Invoke the microservice API**
+3. **Invoke the API**
 
 ```bash
 curl -X GET http://localhost:8888/hello
