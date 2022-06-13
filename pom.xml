@@ -59,11 +59,6 @@
             <artifactId>opentelemetry-api-trace</artifactId>
             <version>${otel.traces.api.version}</version>
         </dependency>
-        <dependency>
-            <groupId>io.opentelemetry</groupId>
-            <artifactId>opentelemetry-api-metrics</artifactId>
-            <version>${otel.metrics.api.version}</version>
-        </dependency>
     </dependencies>
 
     <build>

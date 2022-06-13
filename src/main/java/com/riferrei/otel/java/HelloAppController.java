@@ -6,17 +6,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import io.opentelemetry.api.GlobalOpenTelemetry;
-import io.opentelemetry.api.metrics.LongCounter;
-import io.opentelemetry.api.metrics.Meter;
 import io.opentelemetry.api.trace.Span;
 import io.opentelemetry.api.trace.Tracer;
 import io.opentelemetry.context.Scope;
 import io.opentelemetry.extension.annotations.WithSpan;
-
-import static com.riferrei.otel.java.Constants.*;
-import static java.lang.Runtime.*;
-
-import javax.annotation.PostConstruct;
 
 @RestController
 public class HelloAppController {
@@ -27,40 +20,9 @@ public class HelloAppController {
     @Value("otel.traces.api.version")
     private String tracesApiVersion;
 
-    @Value("otel.metrics.api.version")
-    private String metricsApiVersion;
-
     private final Tracer tracer =
         GlobalOpenTelemetry.getTracer("io.opentelemetry.traces.hello",
             tracesApiVersion);
-
-    private final Meter meter =
-        GlobalOpenTelemetry.meterBuilder("io.opentelemetry.metrics.hello")
-            .setInstrumentationVersion(metricsApiVersion)
-            .build();
-
-    private LongCounter numberOfExecutions;
-
-    @PostConstruct
-    public void createMetrics() {
-
-        numberOfExecutions =
-            meter
-                .counterBuilder(NUMBER_OF_EXEC_NAME)
-                .setDescription(NUMBER_OF_EXEC_DESCRIPTION)
-                .setUnit("int")
-                .build();
-
-        meter
-            .gaugeBuilder(HEAP_MEMORY_NAME)
-            .setDescription(HEAP_MEMORY_DESCRIPTION)
-            .setUnit("byte")
-            .buildWithCallback(
-                r -> {
-                    r.record(getRuntime().totalMemory() - getRuntime().freeMemory());
-                });
-
-    }
 
     @RequestMapping(method= RequestMethod.GET, value="/hello")
     public Response hello() {
@@ -71,8 +33,6 @@ public class HelloAppController {
             if (response.isValid()) {
                 log.info("The response is valid.");
             }
-            // Update the synchronous metric
-            numberOfExecutions.add(1);
         } finally {
             span.end();
         }

@@ -15,19 +15,11 @@ extensions:
     endpoint: 0.0.0.0:6666
     
 exporters:
-  awsemf:
-    region: 'us-east-1'
-    log_group_name: '/metrics/otel'
-    log_stream_name: 'otel-with-java'
   awsxray:
     region: 'us-east-1'
 
 service:
   pipelines:
-    metrics:
-      receivers: [otlp]
-      processors: [batch]
-      exporters: [awsemf]
     traces:
       receivers: [otlp]
       processors: [batch]
