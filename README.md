@@ -17,7 +17,7 @@ Alternatively, you can have the microservice sending telemetry data to AWS. Trac
 1. **Run the collector**
 
 ```bash
-sh run-collector.sh
+docker compose -f docker-compose-aws.yaml up -d
 ```
 
 2. **Run the microservice**

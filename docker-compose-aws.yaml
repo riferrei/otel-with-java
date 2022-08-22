@@ -2,28 +2,6 @@ version: '3.0'
 
 services:
 
-  hello-app:
-    build: .
-    image: hello-app:latest
-    container_name: hello-app
-    hostname: hello-app
-    depends_on:
-      - collector
-    ports:
-      - "8888:8888"
-    environment:
-      - OTEL_TRACES_EXPORTER=otlp
-      - OTEL_METRICS_EXPORTER=otlp
-      - OTEL_EXPORTER_OTLP_ENDPOINT=http://collector:5555
-      - OTEL_TRACES_SAMPLER=always_on
-      - OTEL_IMR_EXPORT_INTERVAL=5000
-      - OTEL_METRIC_EXPORT_INTERVAL=5000
-      - OTEL_RESOURCE_ATTRIBUTES=service.name=hello-app,service.version=1.0,deployment.environment=development
-    healthcheck:
-      interval: 5s
-      retries: 10
-      test: wget --no-verbose --tries=1 --spider http://localhost:8888/hello || exit 1
-
   collector:
     image: public.ecr.aws/aws-observability/aws-otel-collector:latest
     container_name: collector
