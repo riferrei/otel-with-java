@@ -22,15 +22,17 @@ services:
     healthcheck:
       interval: 5s
       retries: 10
-      test: wget --no-verbose --tries=1 --spider http://localhost:8888/hello || exit 1
+      test: curl --write-out 'HTTP %{http_code}' --fail --silent --output /dev/null http://localhost:8888/hello
 
   collector:
     image: public.ecr.aws/aws-observability/aws-otel-collector:latest
     container_name: collector
     hostname: collector
     depends_on:
-      - tempo
-      - prometheus
+      tempo:
+        condition: service_healthy
+      prometheus:
+        condition: service_healthy
     command: ["--config=/etc/collector-config.yaml"]
     volumes:
       - ./collector-config-local.yaml:/etc/collector-config.yaml
@@ -77,8 +79,10 @@ services:
     container_name: grafana
     hostname: grafana 
     depends_on:
-      - tempo
-      - prometheus
+      tempo:
+        condition: service_healthy
+      prometheus:
+        condition: service_healthy
     volumes:
       - ./o11y-backend/grafana-bootstrap.ini:/etc/grafana/grafana.ini
       - ./o11y-backend/grafana-datasources.yaml:/etc/grafana/provisioning/datasources/datasources.yaml
