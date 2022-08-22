@@ -2,10 +2,11 @@
 .cache
 README.md
 
-collector-config.yaml
-run-with-collector.yaml
-run-without-collector.yaml
+collector-config-aws.yaml
+collector-config-local.yaml
+docker-compose-aws.yaml
+docker-compose-local.yaml
 opentelemetry-javaagent-all.jar
 tempo-data
 hello-app.log
-run-locally.sh
+run-microservice.sh
