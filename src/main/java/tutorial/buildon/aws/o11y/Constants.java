@@ -1,4 +1,4 @@
-package com.riferrei.otel.java;
+package tutorial.buildon.aws.o11y;
 
 public interface Constants {
 

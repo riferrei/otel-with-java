@@ -1,4 +1,4 @@
-package com.riferrei.otel.java;
+package tutorial.buildon.aws.o11y;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +13,7 @@ import io.opentelemetry.api.trace.Tracer;
 import io.opentelemetry.context.Scope;
 import io.opentelemetry.instrumentation.annotations.WithSpan;
 
-import static com.riferrei.otel.java.Constants.*;
+import static tutorial.buildon.aws.o11y.Constants.*;
 import static java.lang.Runtime.*;
 
 import javax.annotation.PostConstruct;
