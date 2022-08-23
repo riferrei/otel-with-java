@@ -3,7 +3,7 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.riferrei.otel.java</groupId>
+    <groupId>tutorial.buildon.aws.o11y</groupId>
     <artifactId>hello-app</artifactId>
     <version>1.0</version>
 
@@ -13,11 +13,6 @@
         <version>2.6.4</version>
         <relativePath />
     </parent>
-
-    <properties>
-        <otel.traces.api.version>0.13.1</otel.traces.api.version>
-        <otel.metrics.api.version>1.10.0-alpha-rc.1</otel.metrics.api.version>
-    </properties>
 
     <dependencies>
         <dependency>
@@ -44,26 +39,6 @@
             <version>4.13.2</version>
             <scope>compile</scope>
         </dependency>        
-        <dependency>
-            <groupId>io.opentelemetry</groupId>
-            <artifactId>opentelemetry-api</artifactId>
-            <version>1.17.0</version>
-        </dependency>
-        <dependency>
-            <groupId>io.opentelemetry.instrumentation</groupId>
-            <artifactId>opentelemetry-instrumentation-annotations</artifactId>
-            <version>1.17.0-alpha</version>
-        </dependency>
-        <dependency>
-            <groupId>io.opentelemetry</groupId>
-            <artifactId>opentelemetry-api-trace</artifactId>
-            <version>${otel.traces.api.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.opentelemetry</groupId>
-            <artifactId>opentelemetry-api-metrics</artifactId>
-            <version>${otel.metrics.api.version}</version>
-        </dependency>
     </dependencies>
 
     <build>
