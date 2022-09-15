@@ -25,7 +25,7 @@ services:
       test: curl --write-out 'HTTP %{http_code}' --fail --silent --output /dev/null http://localhost:8888/hello
 
   collector:
-    image: public.ecr.aws/aws-observability/aws-otel-collector:latest
+    image: otel/opentelemetry-collector:latest
     container_name: collector
     hostname: collector
     depends_on:
