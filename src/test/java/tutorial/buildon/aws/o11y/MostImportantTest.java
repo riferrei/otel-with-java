@@ -6,7 +6,7 @@ public class MostImportantTest {
 
     @Test
     public void testIfEverythingWorks() {
-        // Nothing to say here
+        // Nothing really interesting to see here
     }
     
 }
